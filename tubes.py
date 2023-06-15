@@ -7,7 +7,7 @@ from bokeh.resources import CDN
 
 st.set_page_config(page_title='Final Project')
 
-st.header('Final Project - Visualisasi Data')
+st.header('Tugas Besar_Visualisasi Data')
 
 # Baca CSV
 df = pd.read_csv("covid_19_indonesia_time_series.csv")
