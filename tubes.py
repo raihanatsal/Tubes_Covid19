@@ -49,10 +49,10 @@ callback = CustomJS(
 menu = Select(options=Location_list, value='Jawa Barat', title='Location')  
 bokeh_p = figure(x_axis_label='Date', y_axis_label='Total Active Cases', y_axis_type="linear",
                  x_axis_type="datetime")  
-bokeh_p.line(x='Date', y='Total Cases', color='red', legend_label="Total Kasus", source=Curr)
-bokeh_p.line(x='Date', y='Total Deaths', color='yellow', legend_label="Total Kematian", source=Curr)
-bokeh_p.line(x='Date', y='Total Recovered', color='purple', legend_label="Total Sembuh", source=Curr)
-bokeh_p.line(x='Date', y='Total Active Cases', color='green', legend_label="Total Kasus Aktif", source=Curr)
+bokeh_p.line(x='Date', y='Total Cases', color='red', legend_label="Case", source=Curr)
+bokeh_p.line(x='Date', y='Total Deaths', color='yellow', legend_label="Death", source=Curr)
+bokeh_p.line(x='Date', y='Total Recovered', color='purple', legend_label="Recover", source=Curr)
+bokeh_p.line(x='Date', y='Total Active Cases', color='green', legend_label="Active Case", source=Curr)
 bokeh_p.legend.location = "top_right"
 
 bokeh_p.add_tools(HoverTool(
@@ -101,7 +101,7 @@ bar_data = df.groupby('Location').sum().reset_index()
 bar_plot = figure(x_range=bar_data['Location'], y_axis_label='Total Cases',
                   title='Total Kasus COVID-19 Berdasarkan Lokasi', toolbar_location=None, width=600, height=400)
 bar_plot.vbar(x='Location', top='Total Cases', source=ColumnDataSource(bar_data),
-              width=0.9, color='grey')
+              width=0.9, color='purple')
 
 bar_plot.xaxis.major_label_orientation = 45
 
