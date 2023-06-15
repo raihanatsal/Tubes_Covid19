@@ -49,7 +49,8 @@ callback = CustomJS(
 pie_data = df.groupby('Location').sum().reset_index()
 
 total_cases = pie_data['Total Cases']
-angle = 2 * np.pi * total_cases / total_cases.sum()
+proportions = total_cases / total_cases.sum()
+angles = 2 * np.pi * proportions
 
 pie_chart = figure(title='Persentase Total Kasus COVID-19 Berdasarkan Lokasi', toolbar_location=None, width=500, height=400)
 pie_chart.wedge(x=0, y=1, radius=0.4, start_angle=np.cumsum([0] + angle[:-1]), end_angle=np.cumsum(angle),
