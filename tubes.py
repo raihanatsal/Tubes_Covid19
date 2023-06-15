@@ -49,7 +49,7 @@ callback = CustomJS(
 pie_data = df.groupby('Location').sum().reset_index()
 
 pie_chart = figure(title='Persentase Total Kasus COVID-19 Berdasarkan Lokasi', toolbar_location=None, width=500, height=400)
-pie_chart.wedge(x=0, y=1, radius=0.4, start_angle=cumsum('angle', include_zero=True), end_angle=cumsum('angle'),
+pie_chart.wedge(x=0, y=1, radius=0.4, start_angle=np.cumsum('angle', include_zero=True), end_angle=np.cumsum('angle'),
                 line_color='white', fill_color='green', legend_field='Location', source=pie_data)
 
 pie_chart.legend.location = "top_right"
