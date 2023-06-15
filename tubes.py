@@ -48,13 +48,16 @@ callback = CustomJS(
 # Pie Chart
 pie_data = df.groupby('Location').sum().reset_index()
 
+total_cases = pie_data['Total Cases']
+angle = 2 * np.pi * total_cases / total_cases.sum()
+
 pie_chart = figure(title='Persentase Total Kasus COVID-19 Berdasarkan Lokasi', toolbar_location=None, width=500, height=400)
-pie_chart.wedge(x=0, y=1, radius=0.4, start_angle=np.cumsum(pie_data['Total Cases']) - pie_data['Total Cases'], end_angle=np.cumsum(pie_data['Total Cases']),
+pie_chart.wedge(x=0, y=1, radius=0.4, start_angle=np.cumsum([0] + angle[:-1]), end_angle=np.cumsum(angle),
                 line_color='white', fill_color='green', legend_field='Location', source=pie_data)
 
 pie_chart.legend.location = "top_right"
-pie_chart.axis.axis_label=None
-pie_chart.axis.visible=False
+pie_chart.axis.axis_label = None
+pie_chart.axis.visible = False
 pie_chart.grid.grid_line_color = None
 
 # Menambahkan interaksi pada Pie Chart
