@@ -49,7 +49,7 @@ callback = CustomJS(
 pie_data = df.groupby('Location').sum().reset_index()
 
 pie_chart = figure(title='Persentase Total Kasus COVID-19 Berdasarkan Lokasi', toolbar_location=None, width=500, height=400)
-pie_chart.wedge(x=0, y=1, radius=0.4, start_angle=np.cumsum('angle', include_zero=True), end_angle=np.cumsum('angle'),
+pie_chart.wedge(x=0, y=1, radius=0.4, start_angle=np.cumsum(pie_data['Total Cases']) - pie_data['Total Cases'], end_angle=np.cumsum(pie_data['Total Cases']),
                 line_color='white', fill_color='green', legend_field='Location', source=pie_data)
 
 pie_chart.legend.location = "top_right"
@@ -62,25 +62,6 @@ pie_chart.add_tools(HoverTool(
     tooltips=[
         ('Lokasi', '@Location'),
         ('Total Kasus', '@{Total Cases}'),
-    ],
-    mode='mouse'
-))
-
-menu = Select(options=Location_list, value='Jawa Barat', title='Location')  
-bokeh_p = figure(x_axis_label='Date', y_axis_label='Total Active Cases', y_axis_type="linear",
-                 x_axis_type="datetime")  
-bokeh_p.line(x='Date', y='Total Cases', color='green', legend_label="Total Kasus", source=Curr)
-bokeh_p.line(x='Date', y='Total Deaths', color='black', legend_label="Total Kematian", source=Curr)
-bokeh_p.line(x='Date', y='Total Recovered', color='blue', legend_label="Total Sembuh", source=Curr)
-bokeh_p.line(x='Date', y='Total Active Cases', color='red', legend_label="Total Kasus Aktif", source=Curr)
-bokeh_p.legend.location = "top_right"
-
-bokeh_p.add_tools(HoverTool(
-    tooltips=[
-        ('Total Kasus', '@{Total Cases}'),
-        ('Total Kematian', '@{Total Deaths}'),
-        ('Total Sembuh', '@{Total Recovered}'),
-        ('Total Kasus Aktif', '@{Total Active Cases}'),
     ],
     mode='mouse'
 ))
