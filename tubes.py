@@ -46,32 +46,7 @@ callback = CustomJS(
         sc.change.emit();
     """
 )
-# Pie Chart
-pie_data = df.groupby('Location').sum().reset_index()
 
-total_cases = pie_data['Total Cases']
-proportions = total_cases / total_cases.sum()
-angles = 2 * np.pi * proportions
-start_angles = np.cumsum(np.concatenate(([0], angles[:-1])))
-end_angles = np.cumsum(angles)
-
-pie_chart = figure(title='Persentase Total Kasus COVID-19 Berdasarkan Lokasi', toolbar_location=None, width=500, height=400)
-pie_chart.wedge(x=0, y=1, radius=0.4, start_angle=start_angles, end_angle=end_angles,
-                line_color='white', fill_color='green', legend_field='Location', source=pie_data)
-
-pie_chart.legend.location = "top_right"
-pie_chart.axis.axis_label = None
-pie_chart.axis.visible = False
-pie_chart.grid.grid_line_color = None
-
-# Menambahkan interaksi pada Pie Chart
-pie_chart.add_tools(HoverTool(
-    tooltips=[
-        ('Lokasi', '@Location'),
-        ('Total Kasus', '@{Total Cases}'),
-    ],
-    mode='mouse'
-))
 
 menu.js_on_change('value', callback)
 
