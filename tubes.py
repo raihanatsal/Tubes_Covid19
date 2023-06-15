@@ -1,6 +1,6 @@
 import pandas as pd
 import streamlit as st
-from bokeh.models import ColumnDataSource, Select, DateRangeSlider, HoverTool, CustomJS
+from bokeh.models import ColumnDataSource, Select, DateRangeSlider, HoverTool, CustomJS, TapTool
 from bokeh.plotting import figure
 from bokeh.layouts import column
 from bokeh.resources import CDN
@@ -65,6 +65,28 @@ bokeh_p.add_tools(HoverTool(
     mode='mouse'
 ))
 
+scatter_p = figure(x_axis_label='Total Cases', y_axis_label='Total Deaths', y_axis_type="linear",
+                   x_axis_type="linear", title='Hubungan Total Kasus dan Total Kematian',
+                   width=600, height=400)
+scatter_p.circle(x='Total Cases', y='Total Deaths', source=Curr, color='red')
+
+scatter_p.add_tools(HoverTool(
+    tooltips=[
+        ('Total Kasus', '@{Total Cases}'),
+        ('Total Kematian', '@{Total Deaths}'),
+    ],
+    mode='mouse'
+))
+
+scatter_p.add_tools(TapTool(callback=CustomJS(code="""
+    const selected_index = cb_data.source.selected.indices[0];
+    if (selected_index !== undefined) {
+        const selected_location = source.data['Location'][selected_index];
+        menu.value = selected_location;
+        menu.dispatchEvent(new Event('change'));
+    }
+""")))
+
 menu.js_on_change('value', callback)
 
 date_range_slider = DateRangeSlider(value=(min(df['Date']), max(df['Date'])), start=min(df['Date']),
@@ -103,4 +125,4 @@ bar_plot.js_on_event('tap', CustomJS(args=dict(source=bar_plot.select(ColumnData
 """))
 
 # Render plot Bokeh menggunakan Streamlit
-st.bokeh_chart(column(menu, date_range_slider, bokeh_p, bar_plot))
+st.bokeh_chart(column(menu, date_range_slider, bokeh_p, scatter_p, bar_plot))
