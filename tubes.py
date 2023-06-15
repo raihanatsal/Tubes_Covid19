@@ -7,7 +7,7 @@ from bokeh.resources import CDN
 
 st.set_page_config(page_title='Final Project')
 
-st.header('Final Project - Visualisasi Data')
+st.header('Tugas Besar-Visualisasi Data')
 
 # Baca CSV
 df = pd.read_csv("covid_19_indonesia_time_series.csv")
@@ -49,10 +49,10 @@ callback = CustomJS(
 menu = Select(options=Location_list, value='Jawa Barat', title='Location')  
 bokeh_p = figure(x_axis_label='Date', y_axis_label='Total Active Cases', y_axis_type="linear",
                  x_axis_type="datetime")  
-bokeh_p.line(x='Date', y='Total Cases', color='green', legend_label="Total Kasus", source=Curr)
-bokeh_p.line(x='Date', y='Total Deaths', color='black', legend_label="Total Kematian", source=Curr)
-bokeh_p.line(x='Date', y='Total Recovered', color='blue', legend_label="Total Sembuh", source=Curr)
-bokeh_p.line(x='Date', y='Total Active Cases', color='red', legend_label="Total Kasus Aktif", source=Curr)
+bokeh_p.line(x='Date', y='Total Cases', color='red', legend_label="Total Kasus", source=Curr)
+bokeh_p.line(x='Date', y='Total Deaths', color='orange', legend_label="Total Kematian", source=Curr)
+bokeh_p.line(x='Date', y='Total Recovered', color='yellow', legend_label="Total Sembuh", source=Curr)
+bokeh_p.line(x='Date', y='Total Active Cases', color='pink', legend_label="Total Kasus Aktif", source=Curr)
 bokeh_p.legend.location = "top_right"
 
 bokeh_p.add_tools(HoverTool(
@@ -68,7 +68,7 @@ bokeh_p.add_tools(HoverTool(
 scatter_p = figure(x_axis_label='Total Cases', y_axis_label='Total Deaths', y_axis_type="linear",
                    x_axis_type="linear", title='Hubungan Total Kasus dan Total Kematian',
                    width=600, height=400)
-scatter_p.circle(x='Total Cases', y='Total Deaths', source=Curr, color='red')
+scatter_p.circle(x='Total Cases', y='Total Deaths', source=Curr, color='black')
 
 scatter_p.add_tools(HoverTool(
     tooltips=[
@@ -101,7 +101,7 @@ bar_data = df.groupby('Location').sum().reset_index()
 bar_plot = figure(x_range=bar_data['Location'], y_axis_label='Total Cases',
                   title='Total Kasus COVID-19 Berdasarkan Lokasi', toolbar_location=None, width=600, height=400)
 bar_plot.vbar(x='Location', top='Total Cases', source=ColumnDataSource(bar_data),
-              width=0.9, color='green')
+              width=0.9, color='grey')
 
 bar_plot.xaxis.major_label_orientation = 45
 
