@@ -56,7 +56,7 @@ start_angles = np.cumsum(np.concatenate(([0], angles[:-1])))
 end_angles = np.cumsum(angles)
 
 pie_chart = figure(title='Persentase Total Kasus COVID-19 Berdasarkan Lokasi', toolbar_location=None, width=500, height=400)
-pie_chart.wedge(x=0, y=1, radius=0.4, start_angle=np.cumsum([0] + angle[:-1]), end_angle=np.cumsum(angle),
+pie_chart.wedge(x=0, y=1, radius=0.4, start_angle=start_angles, end_angle=end_angles,
                 line_color='white', fill_color='green', legend_field='Location', source=pie_data)
 
 pie_chart.legend.location = "top_right"
