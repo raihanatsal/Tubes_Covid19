@@ -49,7 +49,7 @@ callback = CustomJS(
 menu = Select(options=Location_list, value='Jawa Barat', title='Location')  
 bokeh_p = figure(x_axis_label='Date', y_axis_label='Total Active Cases', y_axis_type="linear",
                  x_axis_type="datetime")  
-bokeh_p.line(x='Date', y='Total Cases', color='blue', legend_label="Case", source=Curr)
+bokeh_p.line(x='Date', y='Total Cases', color='yellow', legend_label="Case", source=Curr)
 bokeh_p.line(x='Date', y='Total Deaths', color='red', legend_label="Death", source=Curr)
 bokeh_p.line(x='Date', y='Total Recovered', color='purple', legend_label="Recover", source=Curr)
 bokeh_p.line(x='Date', y='Total Active Cases', color='green', legend_label="Active Case", source=Curr)
