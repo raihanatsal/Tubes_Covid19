@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 import streamlit as st
 from bokeh.models import ColumnDataSource, Select, DateRangeSlider, HoverTool, CustomJS
 from bokeh.plotting import figure
@@ -8,7 +7,7 @@ from bokeh.resources import CDN
 
 st.set_page_config(page_title='Final Project')
 
-st.header('Tugas Besar_Visualisasi Data')
+st.header('Final Project - Visualisasi Data')
 
 # Baca CSV
 df = pd.read_csv("covid_19_indonesia_time_series.csv")
@@ -47,6 +46,24 @@ callback = CustomJS(
     """
 )
 
+menu = Select(options=Location_list, value='Jawa Barat', title='Location')  
+bokeh_p = figure(x_axis_label='Date', y_axis_label='Total Active Cases', y_axis_type="linear",
+                 x_axis_type="datetime")  
+bokeh_p.line(x='Date', y='Total Cases', color='green', legend_label="Total Kasus", source=Curr)
+bokeh_p.line(x='Date', y='Total Deaths', color='black', legend_label="Total Kematian", source=Curr)
+bokeh_p.line(x='Date', y='Total Recovered', color='blue', legend_label="Total Sembuh", source=Curr)
+bokeh_p.line(x='Date', y='Total Active Cases', color='red', legend_label="Total Kasus Aktif", source=Curr)
+bokeh_p.legend.location = "top_right"
+
+bokeh_p.add_tools(HoverTool(
+    tooltips=[
+        ('Total Kasus', '@{Total Cases}'),
+        ('Total Kematian', '@{Total Deaths}'),
+        ('Total Sembuh', '@{Total Recovered}'),
+        ('Total Kasus Aktif', '@{Total Active Cases}'),
+    ],
+    mode='mouse'
+))
 
 menu.js_on_change('value', callback)
 
@@ -86,4 +103,4 @@ bar_plot.js_on_event('tap', CustomJS(args=dict(source=bar_plot.select(ColumnData
 """))
 
 # Render plot Bokeh menggunakan Streamlit
-st.bokeh_chart(column(menu, date_range_slider, bokeh_p, bar_plot, pie_chart))
+st.bokeh_chart(column(menu, date_range_slider, bokeh_p, bar_plot))
