@@ -66,10 +66,6 @@ pie_chart.add_tools(HoverTool(
     mode='mouse'
 ))
 
-# Render plot Bokeh menggunakan Streamlit
-st.bokeh_chart(column(menu, date_range_slider, bokeh_p, bar_plot, pie_chart))
-
-
 menu = Select(options=Location_list, value='Jawa Barat', title='Location')  
 bokeh_p = figure(x_axis_label='Date', y_axis_label='Total Active Cases', y_axis_type="linear",
                  x_axis_type="datetime")  
@@ -127,4 +123,4 @@ bar_plot.js_on_event('tap', CustomJS(args=dict(source=bar_plot.select(ColumnData
 """))
 
 # Render plot Bokeh menggunakan Streamlit
-st.bokeh_chart(column(menu, date_range_slider, bokeh_p, bar_plot))
+st.bokeh_chart(column(menu, date_range_slider, bokeh_p, bar_plot, pie_chart))
