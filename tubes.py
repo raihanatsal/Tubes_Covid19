@@ -50,7 +50,7 @@ menu = Select(options=Location_list, value='Jawa Barat', title='Location')
 bokeh_p = figure(x_axis_label='Date', y_axis_label='Total Active Cases', y_axis_type="linear",
                  x_axis_type="datetime")  
 bokeh_p.line(x='Date', y='Total Cases', color='red', legend_label="Total Kasus", source=Curr)
-bokeh_p.line(x='Date', y='Total Deaths', color='kuning', legend_label="Total Kematian", source=Curr)
+bokeh_p.line(x='Date', y='Total Deaths', color='yellow', legend_label="Total Kematian", source=Curr)
 bokeh_p.line(x='Date', y='Total Recovered', color='purple', legend_label="Total Sembuh", source=Curr)
 bokeh_p.line(x='Date', y='Total Active Cases', color='green', legend_label="Total Kasus Aktif", source=Curr)
 bokeh_p.legend.location = "top_right"
