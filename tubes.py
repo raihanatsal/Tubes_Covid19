@@ -6,10 +6,10 @@ from bokeh.layouts import column
 from bokeh.resources import CDN
 
 st.set_page_config(page_title='Final Project')
-st.header('Tugas Besar Visualisasi Data')
-st.header('Raihan Atsal Hafizh - 1301204485')
-st.header('Satria Aji Permana S. - 1301204209')
-st.header('IF-43-PIL-DS02')
+st.markdown("<h1 style='text-align: center; font-size: 36px;'>Tugas Besar Visualisasi Data</h1>", unsafe_allow_html=True)
+st.markdown("<h2 style='text-align: center; font-size: 24px;'>Raihan Atsal Hafizh - 1301204485</h2>", unsafe_allow_html=True)
+st.markdown("<h2 style='text-align: center; font-size: 24px;'>Satria Aji Permana S. - 1301204209</h2>", unsafe_allow_html=True)
+st.markdown("<h2 style='text-align: center; font-size: 24px;'>IF-43-PIL-DS02</h2>", unsafe_allow_html=True)
 
 # Membaca dataset CSV
 df = pd.read_csv("covid_19_indonesia_time_series.csv")
