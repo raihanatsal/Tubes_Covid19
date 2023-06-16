@@ -7,15 +7,15 @@ from bokeh.resources import CDN
 
 st.set_page_config(page_title='Final Project')
 st.header('Tugas Besar-Visualisasi Data')
+st.header('Raihan Atsal Hafizh - 1301204485')
+st.header('Satria Aji Permana S. - 1301204209')
 
 # Membaca dataset CSV
 df = pd.read_csv("covid_19_indonesia_time_series.csv")
-
 Location_list = list(df['Location'].unique())
 df['Date'] = pd.to_datetime(df['Date'])
 cols1 = df.loc[:, ['Location', 'Date', 'Total Active Cases', 'Total Deaths', 'Total Recovered', 'Total Cases']]
 cols2 = cols1[cols1['Location'] == 'Jawa Barat']
-
 Overall = ColumnDataSource(data=cols1)
 Curr = ColumnDataSource(data=cols2)
 callback = CustomJS(
@@ -80,7 +80,7 @@ scatter_p.add_tools(TapTool(callback=CustomJS(code="""
         menu.dispatchEvent(new Event('change'));
     }
 """)))
-
+# Range Slider
 menu.js_on_change('value', callback)
 range_slider = DateRangeSlider(value=(min(df['Date']), max(df['Date'])), start=min(df['Date']),
                                    end=max(df['Date']))
@@ -89,12 +89,10 @@ range_slider.js_link("value", bokehline.x_range, "end", attr_selector=1)
 
 # Bar Plot
 bar_data = df.groupby('Location').sum().reset_index()
-
 bar_plot = figure(x_range=bar_data['Location'], y_axis_label='Total Cases',
                   title='Total Case COVID 19 Berdasarkan Lokasi', toolbar_location=None, width=600, height=400)
 bar_plot.vbar(x='Location', top='Total Cases', source=ColumnDataSource(bar_data),
               width=0.9, color='purple')
-
 bar_plot.xaxis.major_label_orientation = 45
 
 # Menambahkan interaksi pada Bar Plot
@@ -115,5 +113,5 @@ bar_plot.js_on_event('tap', CustomJS(args=dict(source=bar_plot.select(ColumnData
     }
 """))
 
-# Render plot Bokeh menggunakan Streamlit
+# Deploy menggunakan Streamlit
 st.bokeh_chart(column(menu, range_slider, bokehline, scatter_p, bar_plot))
