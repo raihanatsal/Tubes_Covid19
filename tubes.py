@@ -27,7 +27,6 @@ callback = CustomJS(
         sc.data['Total Deaths']=[]
         sc.data['Total Recovered']=[]
         sc.data['Total Active Cases']=[]
-   
         for(var i = 0; i < source.get_length(); i++){
             if (source.data['Location'][i] == f){
                 sc.data['Date'].push(source.data['Date'][i])
@@ -37,11 +36,10 @@ callback = CustomJS(
                 sc.data['Total Active Cases'].push(source.data['Total Active Cases'][i])     
             }
         }
-
         sc.change.emit();
     """
 )
-
+# Scatter Plot
 menu = Select(options=Location_list, value='Jawa Barat', title='Location')  
 bokehline = figure(x_axis_label='Date', y_axis_label='Total Active Cases', y_axis_type="linear",
                  x_axis_type="datetime")  
@@ -49,7 +47,7 @@ bokehline.line(x='Date', y='Total Cases', color='yellow', legend_label="Case", s
 bokehline.line(x='Date', y='Total Deaths', color='red', legend_label="Death", source=Curr)
 bokehline.line(x='Date', y='Total Recovered', color='purple', legend_label="Recover", source=Curr)
 bokehline.line(x='Date', y='Total Active Cases', color='green', legend_label="Active Case", source=Curr)
-bokehline.legend.location = "top_right"
+bokehline.legend.location = "top_left"
 
 bokehline.add_tools(HoverTool(
     tooltips=[
