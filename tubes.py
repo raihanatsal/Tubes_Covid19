@@ -6,22 +6,18 @@ from bokeh.layouts import column
 from bokeh.resources import CDN
 
 st.set_page_config(page_title='Final Project')
-
 st.header('Tugas Besar-Visualisasi Data')
 
 # Baca CSV
 df = pd.read_csv("covid_19_indonesia_time_series.csv")
 
 Location_list = list(df['Location'].unique())
-
 df['Date'] = pd.to_datetime(df['Date'])
-
 cols1 = df.loc[:, ['Location', 'Date', 'Total Active Cases', 'Total Deaths', 'Total Recovered', 'Total Cases']]
 cols2 = cols1[cols1['Location'] == 'Jawa Barat']
 
 Overall = ColumnDataSource(data=cols1)
 Curr = ColumnDataSource(data=cols2)
-
 callback = CustomJS(
     args=dict(source=Overall, sc=Curr),
     code="""
@@ -64,12 +60,11 @@ bokehline.add_tools(HoverTool(
     ],
     mode='mouse'
 ))
-
+# Scatter Plot
 scatter_p = figure(x_axis_label='Total Cases', y_axis_label='Total Deaths', y_axis_type="linear",
                    x_axis_type="linear", title='Hubungan Total Kasus dan Total Kematian',
                    width=600, height=400)
 scatter_p.circle(x='Total Cases', y='Total Deaths', source=Curr, color='black')
-
 scatter_p.add_tools(HoverTool(
     tooltips=[
         ('Total Kasus', '@{Total Cases}'),
@@ -78,6 +73,7 @@ scatter_p.add_tools(HoverTool(
     mode='mouse'
 ))
 
+# Menambahkan interaksi pada Scatter Plot
 scatter_p.add_tools(TapTool(callback=CustomJS(code="""
     const selected_index = cb_data.source.selected.indices[0];
     if (selected_index !== undefined) {
@@ -88,10 +84,8 @@ scatter_p.add_tools(TapTool(callback=CustomJS(code="""
 """)))
 
 menu.js_on_change('value', callback)
-
 range_slider = DateRangeSlider(value=(min(df['Date']), max(df['Date'])), start=min(df['Date']),
                                    end=max(df['Date']))
-
 range_slider.js_link("value", bokehline.x_range, "start", attr_selector=0)
 range_slider.js_link("value", bokehline.x_range, "end", attr_selector=1)
 
@@ -114,7 +108,6 @@ bar_plot.add_tools(HoverTool(
     mode='vline',
     line_policy='nearest',
 ))
-
 bar_plot.js_on_event('tap', CustomJS(args=dict(source=bar_plot.select(ColumnDataSource)), code="""
     const selected_index = cb_obj.selected['1d'].indices[0];
     if (selected_index !== undefined) {
