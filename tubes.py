@@ -8,7 +8,7 @@ from bokeh.resources import CDN
 st.set_page_config(page_title='Final Project')
 st.header('Tugas Besar-Visualisasi Data')
 
-# Baca CSV
+# Membaca dataset CSV
 df = pd.read_csv("covid_19_indonesia_time_series.csv")
 
 Location_list = list(df['Location'].unique())
