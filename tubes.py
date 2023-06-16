@@ -40,7 +40,7 @@ callback = CustomJS(
         sc.change.emit();
     """
 )
-# Scatter Plot
+# Line Plot
 menu = Select(options=Location_list, value='Jawa Barat', title='Location')  
 bokehline = figure(x_axis_label='Date', y_axis_label='Total Active Cases', y_axis_type="linear",
                  x_axis_type="datetime")  
