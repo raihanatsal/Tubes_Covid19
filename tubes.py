@@ -47,15 +47,15 @@ callback = CustomJS(
 )
 
 menu = Select(options=Location_list, value='Jawa Barat', title='Location')  
-bokeh_p = figure(x_axis_label='Date', y_axis_label='Total Active Cases', y_axis_type="linear",
+bokehline = figure(x_axis_label='Date', y_axis_label='Total Active Cases', y_axis_type="linear",
                  x_axis_type="datetime")  
-bokeh_p.line(x='Date', y='Total Cases', color='yellow', legend_label="Case", source=Curr)
-bokeh_p.line(x='Date', y='Total Deaths', color='red', legend_label="Death", source=Curr)
-bokeh_p.line(x='Date', y='Total Recovered', color='purple', legend_label="Recover", source=Curr)
-bokeh_p.line(x='Date', y='Total Active Cases', color='green', legend_label="Active Case", source=Curr)
-bokeh_p.legend.location = "top_right"
+bokehline.line(x='Date', y='Total Cases', color='yellow', legend_label="Case", source=Curr)
+bokehline.line(x='Date', y='Total Deaths', color='red', legend_label="Death", source=Curr)
+bokehline.line(x='Date', y='Total Recovered', color='purple', legend_label="Recover", source=Curr)
+bokehline.line(x='Date', y='Total Active Cases', color='green', legend_label="Active Case", source=Curr)
+bokehline.legend.location = "top_right"
 
-bokeh_p.add_tools(HoverTool(
+bokehline.add_tools(HoverTool(
     tooltips=[
         ('Total Kasus', '@{Total Cases}'),
         ('Total Kematian', '@{Total Deaths}'),
@@ -89,17 +89,17 @@ scatter_p.add_tools(TapTool(callback=CustomJS(code="""
 
 menu.js_on_change('value', callback)
 
-date_range_slider = DateRangeSlider(value=(min(df['Date']), max(df['Date'])), start=min(df['Date']),
+range_slider = DateRangeSlider(value=(min(df['Date']), max(df['Date'])), start=min(df['Date']),
                                    end=max(df['Date']))
 
-date_range_slider.js_link("value", bokeh_p.x_range, "start", attr_selector=0)
-date_range_slider.js_link("value", bokeh_p.x_range, "end", attr_selector=1)
+range_slider.js_link("value", bokehline.x_range, "start", attr_selector=0)
+range_slider.js_link("value", bokehline.x_range, "end", attr_selector=1)
 
 # Bar Plot
 bar_data = df.groupby('Location').sum().reset_index()
 
 bar_plot = figure(x_range=bar_data['Location'], y_axis_label='Total Cases',
-                  title='Total Kasus COVID-19 Berdasarkan Lokasi', toolbar_location=None, width=600, height=400)
+                  title='Total Case COVID 19 Berdasarkan Lokasi', toolbar_location=None, width=600, height=400)
 bar_plot.vbar(x='Location', top='Total Cases', source=ColumnDataSource(bar_data),
               width=0.9, color='purple')
 
@@ -125,4 +125,4 @@ bar_plot.js_on_event('tap', CustomJS(args=dict(source=bar_plot.select(ColumnData
 """))
 
 # Render plot Bokeh menggunakan Streamlit
-st.bokeh_chart(column(menu, date_range_slider, bokeh_p, scatter_p, bar_plot))
+st.bokeh_chart(column(menu, range_slider, bokehline, scatter_p, bar_plot))
